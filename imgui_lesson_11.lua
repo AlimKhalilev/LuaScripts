@@ -1,15 +1,15 @@
-script_name('Imgui Script') -- название скрипта
-script_author('FORMYS') -- автор скрипта
-script_description('Imgui') -- описание скрипта
+script_name('Imgui Script') -- РЅР°Р·РІР°РЅРёРµ СЃРєСЂРёРїС‚Р°
+script_author('FORMYS') -- Р°РІС‚РѕСЂ СЃРєСЂРёРїС‚Р°
+script_description('Imgui') -- РѕРїРёСЃР°РЅРёРµ СЃРєСЂРёРїС‚Р°
 
-require "lib.moonloader" -- подключение библиотеки
+require "lib.moonloader" -- РїРѕРґРєР»СЋС‡РµРЅРёРµ Р±РёР±Р»РёРѕС‚РµРєРё
 local keys = require "vkeys"
 local imgui = require 'imgui'
 local encoding = require 'encoding'
 encoding.default = 'CP1251'
 u8 = encoding.UTF8
 
-local tag = "[My First Script]:" -- локальная переменная
+local tag = "[My First Script]:" -- Р»РѕРєР°Р»СЊРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ
 local label = 0
 local main_color = 0x5A90CE
 local main_color_text = "{5A90CE}"
@@ -88,21 +88,21 @@ function main()
 
 	imgui.Process = false
 
-	--sampAddChatMessage("Скрипт imgui перезагружен", -1)
+	--sampAddChatMessage("РЎРєСЂРёРїС‚ imgui РїРµСЂРµР·Р°РіСЂСѓР¶РµРЅ", -1)
 
 	while true do
 		wait(0)
 
 		if isKeyJustPressed(VK_F3) then
-			sampAddChatMessage("Вы нажали клавишу {FFFFFF}F3." .. main_color_text .. "Ваш ник: {FFFFFF}" .. nick .. ", " .. main_color_text .. "ваш ID: {FFFFFF}" .. id, main_color)
+			sampAddChatMessage("Р’С‹ РЅР°Р¶Р°Р»Рё РєР»Р°РІРёС€Сѓ {FFFFFF}F3." .. main_color_text .. "Р’Р°С€ РЅРёРє: {FFFFFF}" .. nick .. ", " .. main_color_text .. "РІР°С€ ID: {FFFFFF}" .. id, main_color)
 		end
 
 		if isKeyDown(VK_MENU) and isKeyJustPressed(VK_9) then
-			sampAddChatMessage("Вы крут, вы зажали комбинацию клавиш!", main_color)
+			sampAddChatMessage("Р’С‹ РєСЂСѓС‚, РІС‹ Р·Р°Р¶Р°Р»Рё РєРѕРјР±РёРЅР°С†РёСЋ РєР»Р°РІРёС€!", main_color)
 			wait(500)
-			sampAddChatMessage("Прошло пол секунды", main_color)
+			sampAddChatMessage("РџСЂРѕС€Р»Рѕ РїРѕР» СЃРµРєСѓРЅРґС‹", main_color)
 		end
-		-- Блок выполняющийся бесконечно (пока самп активен)
+		-- Р‘Р»РѕРє РІС‹РїРѕР»РЅСЏСЋС‰РёР№СЃСЏ Р±РµСЃРєРѕРЅРµС‡РЅРѕ (РїРѕРєР° СЃР°РјРї Р°РєС‚РёРІРµРЅ)
 
 	end
 end
@@ -127,13 +127,13 @@ function imgui.OnDrawFrame()
 		imgui.SetNextWindowSize(imgui.ImVec2(500, 300), imgui.Cond.FirstUseEver)
 		imgui.SetNextWindowPos(imgui.ImVec2((sw / 2), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
 	
-		imgui.Begin(u8"Заголовок", main_window_state)
+		imgui.Begin(u8"Р—Р°РіРѕР»РѕРІРѕРє", main_window_state)
 		imgui.PushItemWidth(120)
-		imgui.InputText(u8'Вводить имя сюда', text_buffer_name)
+		imgui.InputText(u8'Р’РІРѕРґРёС‚СЊ РёРјСЏ СЃСЋРґР°', text_buffer_name)
 		imgui.PushItemWidth(160)
-		imgui.InputText(u8'Вводить возраст сюда', text_buffer_age)
+		imgui.InputText(u8'Р’РІРѕРґРёС‚СЊ РІРѕР·СЂР°СЃС‚ СЃСЋРґР°', text_buffer_age)
 		x, y, z = getCharCoordinates(PLAYER_PED)
-		imgui.Text(u8("Позиция игрока: X:" .. math.floor(x) .. " | Y: " .. math.floor(y) .. " | Z: " .. math.floor(z)))
+		imgui.Text(u8("РџРѕР·РёС†РёСЏ РёРіСЂРѕРєР°: X:" .. math.floor(x) .. " | Y: " .. math.floor(y) .. " | Z: " .. math.floor(z)))
 	
 		--sampAddChatMessage(u8:decode(text_buffer_name.v), -1)
 	
@@ -141,7 +141,7 @@ function imgui.OnDrawFrame()
 		imgui.SetCursorPosY(120) -- CHECKBOX
 		imgui.Separator()
 		imgui.SetCursorPosY(140)
-		imgui.Text(u8"Это наша выборка")
+		imgui.Text(u8"Р­С‚Рѕ РЅР°С€Р° РІС‹Р±РѕСЂРєР°")
 		imgui.SameLine()
 		imgui.SetCursorPosX(200)
 		imgui.Checkbox(u8"Text1", checked_test)
@@ -163,9 +163,9 @@ function imgui.OnDrawFrame()
 		imgui.Separator() -- RADIO
 	
 		my_arr = {"text", "text2", "text3", "text4"}
-		str_combo = "Профиль 1\0Профиль 2\0Профиль 3\0Профиль 4\0Профиль 5\0Профиль 6\0Профиль 7\0\0"
+		str_combo = "РџСЂРѕС„РёР»СЊ 1\0РџСЂРѕС„РёР»СЊ 2\0РџСЂРѕС„РёР»СЊ 3\0РџСЂРѕС„РёР»СЊ 4\0РџСЂРѕС„РёР»СЊ 5\0РџСЂРѕС„РёР»СЊ 6\0РџСЂРѕС„РёР»СЊ 7\0\0"
 	
-		my_arr = {u8"Привет", u8"Пока", u8"Добрый день", u8"День добрый"}
+		my_arr = {u8"РџСЂРёРІРµС‚", u8"РџРѕРєР°", u8"Р”РѕР±СЂС‹Р№ РґРµРЅСЊ", u8"Р”РµРЅСЊ РґРѕР±СЂС‹Р№"}
 		imgui.Combo(u8"", combo_select, my_arr, #my_arr)
 		
 	
@@ -177,11 +177,9 @@ function imgui.OnDrawFrame()
 	end
 
 	if secondary_window_state.v then
-		imgui.Begin(u8"Заголовок 2", secondary_window_state)
-		imgui.Text(u8"Привет")
+		imgui.Begin(u8"Р—Р°РіРѕР»РѕРІРѕРє 2", secondary_window_state)
+		imgui.Text(u8"РџСЂРёРІРµС‚")
 		imgui.End()
 	end
 	
-	
-
 end
