@@ -13,7 +13,7 @@ require "lib.moonloader"
 encoding.default = 'CP1251'
 u8 = encoding.UTF8
 
-local bind_slot = 50 -- кол-во слотов биндера
+local bind_slot = 50 -- РєРѕР»-РІРѕ СЃР»РѕС‚РѕРІ Р±РёРЅРґРµСЂР°
 
 if not doesDirectoryExist(bindPathShort) then
 	createDirectory(bindPathShort)
@@ -37,8 +37,8 @@ about_bind = {}
 binder_text = {}
 binder_vars = {}
 binder_text[1] = imgui.ImBuffer(1024) -- multiline
-binder_text[2] = imgui.ImBuffer(192) -- активация команда
-binder_text[3] = imgui.ImBuffer(16) -- задержка
+binder_text[2] = imgui.ImBuffer(192) -- Р°РєС‚РёРІР°С†РёСЏ РєРѕРјР°РЅРґР°
+binder_text[3] = imgui.ImBuffer(16) -- Р·Р°РґРµСЂР¶РєР°
 selected_item_binder = imgui.ImInt(0)
 
 cb_render_in_menu = imgui.ImBool(imgui.RenderInMenu)
@@ -97,7 +97,7 @@ function main()
 
 	binder_vars = {["myId"]=myId, ["myNick"]=myNick, ["youId"]=youId, ["youNick"]=youNick}
 
-	AddChatMessage("Успешно запущен")
+	AddChatMessage("РЈСЃРїРµС€РЅРѕ Р·Р°РїСѓС‰РµРЅ")
 
 	while true do
 		wait(0)
@@ -136,7 +136,7 @@ function thread_function(option)
 		for i = 1, 30 do
 			if mainBind[ind][i] ~= nil then
 				if mainBind[ind][i] == "" then
-					sampAddChatMessage("[Binder | Warning]: Обнаружена пустая строка", -1)
+					sampAddChatMessage("[Binder | Warning]: РћР±РЅР°СЂСѓР¶РµРЅР° РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР°", -1)
 				else
 					bindStr = u8:decode(mainBind[ind][i])
 					for word in string.gmatch(bindStr, "{(%a+)}") do
@@ -317,16 +317,16 @@ function imgui.OnDrawFrame()
 	if binder_window.v then
 		imgui.SetNextWindowSize(imgui.ImVec2(wmine+50, 340), imgui.Cond.FirstUseEver)
 		imgui.SetNextWindowPos(imgui.ImVec2((sw / 2), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-		imgui.Begin(u8'Настройка MultiBinder', binder_window, imgui.WindowFlags.NoResize)
+		imgui.Begin(u8'РќР°СЃС‚СЂРѕР№РєР° MultiBinder', binder_window, imgui.WindowFlags.NoResize)
 
 		imgui.BeginChild("test", imgui.ImVec2(wmine-490, 305), true)
 						imgui.Columns(2, "mycolumns")
 						imgui.Separator()
-						imgui.Text(u8"Активация") ShowHelpMarker("Двойной щелчок по пункту открывает\nнастройку редактора биндера") imgui.NextColumn()
-						imgui.Text(u8"Статус") imgui.NextColumn()
+						imgui.Text(u8"РђРєС‚РёРІР°С†РёСЏ") ShowHelpMarker("Р”РІРѕР№РЅРѕР№ С‰РµР»С‡РѕРє РїРѕ РїСѓРЅРєС‚Сѓ РѕС‚РєСЂС‹РІР°РµС‚\nРЅР°СЃС‚СЂРѕР№РєСѓ СЂРµРґР°РєС‚РѕСЂР° Р±РёРЅРґРµСЂР°") imgui.NextColumn()
+						imgui.Text(u8"РЎС‚Р°С‚СѓСЃ") imgui.NextColumn()
 			imgui.Separator()
 			for i = 1, bind_slot do
-				if imgui.Selectable(u8"Слот №" .. i, false, imgui.SelectableFlags.AllowDoubleClick) then
+				if imgui.Selectable(u8"РЎР»РѕС‚ в„–" .. i, false, imgui.SelectableFlags.AllowDoubleClick) then
 					if (imgui.IsMouseDoubleClicked(0)) then
 						z = i
 						if mainBind[i] == nil then
@@ -339,25 +339,25 @@ function imgui.OnDrawFrame()
 				imgui.NextColumn()
 				if mainBind[i] ~= nil and mainBind[i].wait ~= nil and mainBind[i].act ~= nil then
 					if change_binder == i and change_binder ~= nil and change_binder ~= "" then
-						imgui.TextColored(imgui.ImVec4(0.4, 0.8, 0.8, 1.0), u8"Ред. | Занято")
+						imgui.TextColored(imgui.ImVec4(0.4, 0.8, 0.8, 1.0), u8"Р РµРґ. | Р—Р°РЅСЏС‚Рѕ")
 					else
-						imgui.TextColored(imgui.ImVec4(0.8, 0.7, 0.1, 1.0), mainBind[i].act) --u8"Занято"
+						imgui.TextColored(imgui.ImVec4(0.8, 0.7, 0.1, 1.0), mainBind[i].act) --u8"Р—Р°РЅСЏС‚Рѕ"
 						about_bind[i] = true
 					end
 				else
 					if change_binder == i and change_binder ~= nil and change_binder ~= "" then
-						imgui.TextColored(imgui.ImVec4(0.4, 0.8, 0.8, 1.0), u8"Редактируется")
+						imgui.TextColored(imgui.ImVec4(0.4, 0.8, 0.8, 1.0), u8"Р РµРґР°РєС‚РёСЂСѓРµС‚СЃСЏ")
 					else
-						imgui.TextColored(imgui.ImVec4(0.4, 0.8, 0.3, 1.0), u8"Cвободно")
+						imgui.TextColored(imgui.ImVec4(0.4, 0.8, 0.3, 1.0), u8"CРІРѕР±РѕРґРЅРѕ")
 						about_bind[i] = false
 					end
 				end
 				imgui.NextColumn()
 			end
 		if imgui.BeginPopup("ReActivation") then
-			imgui.Text(u8"Выберите нужное действие для (Слот №" .. z .. ")")
+			imgui.Text(u8"Р’С‹Р±РµСЂРёС‚Рµ РЅСѓР¶РЅРѕРµ РґРµР№СЃС‚РІРёРµ РґР»СЏ (РЎР»РѕС‚ в„–" .. z .. ")")
 			imgui.SetCursorPosX(20)
-			if imgui.Button(u8"Удалить") then
+			if imgui.Button(u8"РЈРґР°Р»РёС‚СЊ") then
 				for i = 1, 30 do
 					mainBind[z][i] = nil
 				end
@@ -368,7 +368,7 @@ function imgui.OnDrawFrame()
 				imgui.CloseCurrentPopup()
 			end
 			imgui.SameLine()
-			if imgui.Button(u8"Редактировать") then
+			if imgui.Button(u8"Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ") then
 				change_binder = z
 				is_changeact = true
 				binder_text[2].v = mainBind[z].act
@@ -387,18 +387,18 @@ function imgui.OnDrawFrame()
 				imgui.CloseCurrentPopup()
 			end
 			imgui.SameLine()
-			if imgui.Button(u8"Закрыть") then
+			if imgui.Button(u8"Р—Р°РєСЂС‹С‚СЊ") then
 				imgui.CloseCurrentPopup()
 			end
 			imgui.EndPopup()
 		end
 		if imgui.BeginPopup("SetActivation") then
-			imgui.Text(u8"Выберите нужную вам активацию для (Слот №" .. z .. ")")
+			imgui.Text(u8"Р’С‹Р±РµСЂРёС‚Рµ РЅСѓР¶РЅСѓСЋ РІР°Рј Р°РєС‚РёРІР°С†РёСЋ РґР»СЏ (РЎР»РѕС‚ в„–" .. z .. ")")
 			imgui.PushItemWidth(240)
 			imgui.SetCursorPosX(30)
-			imgui.Combo("", selected_item_binder, u8"На клавишу (комбинацию клавиш)\0На команду (прим. /command)\0\0")
+			imgui.Combo("", selected_item_binder, u8"РќР° РєР»Р°РІРёС€Сѓ (РєРѕРјР±РёРЅР°С†РёСЋ РєР»Р°РІРёС€)\0РќР° РєРѕРјР°РЅРґСѓ (РїСЂРёРј. /command)\0\0")
 			imgui.SetCursorPosX(85)
-			if imgui.Button(u8"Выбрать") then
+			if imgui.Button(u8"Р’С‹Р±СЂР°С‚СЊ") then
 				change_binder = z
 				binder_text[1].v = ""
 				is_changeact = false
@@ -425,7 +425,7 @@ function imgui.OnDrawFrame()
 			end
 			imgui.SameLine()
 			imgui.SetCursorPosX(155)
-			if imgui.Button(u8"Закрыть") then
+			if imgui.Button(u8"Р—Р°РєСЂС‹С‚СЊ") then
 				imgui.CloseCurrentPopup()
 			end
 			imgui.EndPopup()
@@ -440,7 +440,7 @@ function imgui.OnDrawFrame()
 
 		if change_binder ~= nil and change_binder ~= "" then
 			imgui.SetCursorPosY(5)
-			ShowCenterTextColor(u8("Редакторивание профиля биндера (Слот №" .. change_binder .. ")"), wmine-200, imgui.ImVec4(0.8, 0.7, 0.1, 1.0))
+			ShowCenterTextColor(u8("Р РµРґР°РєС‚РѕСЂРёРІР°РЅРёРµ РїСЂРѕС„РёР»СЏ Р±РёРЅРґРµСЂР° (РЎР»РѕС‚ в„–" .. change_binder .. ")"), wmine-200, imgui.ImVec4(0.8, 0.7, 0.1, 1.0))
 			imgui.Separator()
 
 			if not is_changeact then
@@ -452,29 +452,29 @@ function imgui.OnDrawFrame()
 					imgui.EndChild()
 					imgui.SameLine()
 					imgui.SetCursorPosY(28)
-					imgui.Text(u8"Зажмите клавишу/комбинацию клавиш и нажмите")
+					imgui.Text(u8"Р—Р°Р¶РјРёС‚Рµ РєР»Р°РІРёС€Сѓ/РєРѕРјР±РёРЅР°С†РёСЋ РєР»Р°РІРёС€ Рё РЅР°Р¶РјРёС‚Рµ")
 					imgui.SameLine()
-					if imgui.Button(u8("Сохранить")) then
+					if imgui.Button(u8("РЎРѕС…СЂР°РЅРёС‚СЊ")) then
 						if getDownKeysText() ~= "None" then
 							binder_text[2].v = getDownKeysText()
 							is_changeact = true
 						else
-							AddChatMessage("Зажмите клавишу/клавиши, после чего повторите попытку")
+							AddChatMessage("Р—Р°Р¶РјРёС‚Рµ РєР»Р°РІРёС€Сѓ/РєР»Р°РІРёС€Рё, РїРѕСЃР»Рµ С‡РµРіРѕ РїРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ")
 						end
 					end
 				else
-					imgui.Text(u8"Активация: /")
+					imgui.Text(u8"РђРєС‚РёРІР°С†РёСЏ: /")
 					imgui.SameLine()
 					imgui.PushItemWidth(100)
 					imgui.SetCursorPos(imgui.ImVec2(90, 26))
 					imgui.InputText(u8"##1", binder_text[2])
 					imgui.SameLine()
-					if imgui.Button(u8"Сохранить") then
+					if imgui.Button(u8"РЎРѕС…СЂР°РЅРёС‚СЊ") then
 						if isReservedCommand(binder_text[2].v) then
-							AddChatMessage("Введенная вами команда является зарезервированной скриптом. Придумайте другую")
+							AddChatMessage("Р’РІРµРґРµРЅРЅР°СЏ РІР°РјРё РєРѕРјР°РЅРґР° СЏРІР»СЏРµС‚СЃСЏ Р·Р°СЂРµР·РµСЂРІРёСЂРѕРІР°РЅРЅРѕР№ СЃРєСЂРёРїС‚РѕРј. РџСЂРёРґСѓРјР°Р№С‚Рµ РґСЂСѓРіСѓСЋ")
 						else
 							if string.find(binder_text[2].v, '/', 1, true) then
-								AddChatMessage('Знак "/" будет прикреплен к команде позже. В данный момент он не нужен')
+								AddChatMessage('Р—РЅР°Рє "/" Р±СѓРґРµС‚ РїСЂРёРєСЂРµРїР»РµРЅ Рє РєРѕРјР°РЅРґРµ РїРѕР·Р¶Рµ. Р’ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РѕРЅ РЅРµ РЅСѓР¶РµРЅ')
 							else
 								is_changeact = true
 								binder_text[2].v = "/" .. binder_text[2].v
@@ -485,24 +485,24 @@ function imgui.OnDrawFrame()
 
 			else
 				imgui.SetCursorPosY(30)
-				imgui.Text(u8"Активация:")
+				imgui.Text(u8"РђРєС‚РёРІР°С†РёСЏ:")
 				imgui.SameLine()
 				imgui.SetCursorPosY(30)
 				imgui.TextColored(imgui.ImVec4(0.4, 0.8, 0.3, 1.0), binder_text[2].v)
 				imgui.SameLine()
 				imgui.SetCursorPosY(28)
-				if imgui.Button(u8("Изменить активацию")) then
+				if imgui.Button(u8("РР·РјРµРЅРёС‚СЊ Р°РєС‚РёРІР°С†РёСЋ")) then
 					imgui.OpenPopup("ChangeActivation")
 				end
 			end
 
 			if (imgui.BeginPopup("ChangeActivation")) then
-				imgui.Text(u8"Выберите нужную вам активацию для (Слот №" .. z .. ")")
+				imgui.Text(u8"Р’С‹Р±РµСЂРёС‚Рµ РЅСѓР¶РЅСѓСЋ РІР°Рј Р°РєС‚РёРІР°С†РёСЋ РґР»СЏ (РЎР»РѕС‚ в„–" .. z .. ")")
 				imgui.PushItemWidth(240)
 				imgui.SetCursorPosX(30)
-				imgui.Combo("", selected_item_binder, u8"На клавишу (комбинацию клавиш)\0На команду (прим. /command)\0\0")
+				imgui.Combo("", selected_item_binder, u8"РќР° РєР»Р°РІРёС€Сѓ (РєРѕРјР±РёРЅР°С†РёСЋ РєР»Р°РІРёС€)\0РќР° РєРѕРјР°РЅРґСѓ (РїСЂРёРј. /command)\0\0")
 				imgui.SetCursorPosX(85)
-				if imgui.Button(u8"Выбрать") then
+				if imgui.Button(u8"Р’С‹Р±СЂР°С‚СЊ") then
 					if selected_item_binder.v == 1 then
 						if binder_text[2].v ~= "" then
 							if string.find(binder_text[2].v, '/', 1, true) then
@@ -517,30 +517,30 @@ function imgui.OnDrawFrame()
 				end
 				imgui.SameLine()
 				imgui.SetCursorPosX(155)
-				if imgui.Button(u8"Закрыть") then
+				if imgui.Button(u8"Р—Р°РєСЂС‹С‚СЊ") then
 					imgui.CloseCurrentPopup()
 				end
 				imgui.EndPopup()
 			end
 
-			imgui.Text(u8"Задержка:")
+			imgui.Text(u8"Р—Р°РґРµСЂР¶РєР°:")
 			imgui.SameLine()
 			imgui.PushItemWidth(50)
-			imgui.InputText(u8'сек.', binder_text[3], imgui.InputTextFlags.CharsDecimal)
+			imgui.InputText(u8'СЃРµРє.', binder_text[3], imgui.InputTextFlags.CharsDecimal)
 			imgui.SameLine()
-			if imgui.Checkbox(u8"Блокировка движений персонажа", cb_lock_player) then
+			if imgui.Checkbox(u8"Р‘Р»РѕРєРёСЂРѕРІРєР° РґРІРёР¶РµРЅРёР№ РїРµСЂСЃРѕРЅР°Р¶Р°", cb_lock_player) then
 				imgui.LockPlayer = cb_lock_player.v
 			end
 			imgui.Separator()
-			ShowCenterTextColor(u8("Вводимый текст биндера (для переноса строки нажать Enter)"), wmine-200, imgui.ImVec4(0.8, 0.7, 0.1, 1.0))
+			ShowCenterTextColor(u8("Р’РІРѕРґРёРјС‹Р№ С‚РµРєСЃС‚ Р±РёРЅРґРµСЂР° (РґР»СЏ РїРµСЂРµРЅРѕСЃР° СЃС‚СЂРѕРєРё РЅР°Р¶Р°С‚СЊ Enter)"), wmine-200, imgui.ImVec4(0.8, 0.7, 0.1, 1.0))
 			imgui.InputTextMultiline(u8'##3', binder_text[1], imgui.ImVec2(500, 178))
 			imgui.SetCursorPosX(120)
-			if imgui.Button(u8("Сохранить"), imgui.ImVec2(120, 20)) then
+			if imgui.Button(u8("РЎРѕС…СЂР°РЅРёС‚СЊ"), imgui.ImVec2(120, 20)) then
 				if binder_text[3].v == "" then
 					binder_text[3].v = 0
 				end
 				if binder_text[1].v == "" or binder_text[2].v == "" then
-					AddChatMessage("Заполните все поля!")
+					AddChatMessage("Р—Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РїРѕР»СЏ!")
 				else
 					for i = 1, 30 do
 						if mainBind[change_binder] ~= nil then
@@ -564,12 +564,12 @@ function imgui.OnDrawFrame()
 					mainBind[change_binder].act = binder_text[2].v
 					mainBind[change_binder].wait = binder_text[3].v
 					inicfg.save(mainBind, bindPath)
-					AddChatMessage("Данные биндера успешно сохранены!")
+					AddChatMessage("Р”Р°РЅРЅС‹Рµ Р±РёРЅРґРµСЂР° СѓСЃРїРµС€РЅРѕ СЃРѕС…СЂР°РЅРµРЅС‹!")
 				end
 			end
 			imgui.SameLine()
 			imgui.SetCursorPosX(260)
-			if imgui.Button(u8("Отмена"), imgui.ImVec2(120, 20)) then
+			if imgui.Button(u8("РћС‚РјРµРЅР°"), imgui.ImVec2(120, 20)) then
 				change_binder = ""
 			end
 
