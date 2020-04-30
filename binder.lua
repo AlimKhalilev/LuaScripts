@@ -92,10 +92,6 @@ function main()
 
 	_, myId = sampGetPlayerIdByCharHandle(PLAYER_PED)
 	myNick = string.gsub(sampGetPlayerNickname(myId), "_", " ")
-	youId = getClosestPlayerId()
-	youNick = string.gsub(sampGetPlayerNickname(youId), "_", " ")
-
-	binder_vars = {["myId"]=myId, ["myNick"]=myNick, ["youId"]=youId, ["youNick"]=youNick}
 
 	AddChatMessage("Успешно запущен")
 
@@ -113,6 +109,11 @@ function main()
 		end
 	end
 
+end
+
+function sampev.onSendSpawn()
+	_, myId = sampGetPlayerIdByCharHandle(PLAYER_PED)
+	myNick = string.gsub(sampGetPlayerNickname(myId), "_", " ")
 end
 
 function sampev.onSendCommand(command)
@@ -133,6 +134,10 @@ end
 function thread_function(option)
 	if string.sub(option, 0, 6) == "binder" then
 		ind = tonumber(string.sub(option, 7))
+		youId = getClosestPlayerId()
+		youNick = string.gsub(sampGetPlayerNickname(youId), "_", " ")
+		binder_vars = {["myId"]=myId, ["myNick"]=myNick, ["youId"]=youId, ["youNick"]=youNick}
+
 		for i = 1, 30 do
 			if mainBind[ind][i] ~= nil then
 				if mainBind[ind][i] == "" then
